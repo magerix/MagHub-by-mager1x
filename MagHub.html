@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mager1x Hub | MM2</title>
+    <style>
+        /* Главные настройки фона и шрифтов */
+        body {
+            background-color: #07030d;
+            color: #e5def0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* Контейнер нашего сайта */
+        .main-card {
+            background: linear-gradient(145deg, #120721 0%, #080310 100%);
+            padding: 35px 25px;
+            border-radius: 20px;
+            text-align: center;
+            width: 100%;
+            max-width: 460px;
+            border: 2px solid #7b2cbf;
+            box-shadow: 0 0 35px rgba(123, 44, 191, 0.3), inset 0 0 20px rgba(123, 44, 191, 0.15);
+        }
+
+        /* Название хаба с неоновым свечением */
+        h1 { 
+            color: #9d4edd; 
+            margin: 0 0 5px 0; 
+            font-size: 32px; 
+            letter-spacing: 1.5px;
+            text-shadow: 0 0 15px rgba(157, 78, 221, 0.6);
+        }
+
+        /* Подзаголовок с версией */
+        .version-tag {
+            color: #7b2cbf;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Плашка статуса работы скрипта */
+        .status-badge {
+            background-color: rgba(157, 78, 221, 0.12);
+            color: #c77dff;
+            padding: 6px 16px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: bold;
+            display: inline-block;
+            margin-bottom: 25px;
+            border: 1px solid #7b2cbf;
+        }
+
+        /* Окошко, где лежит Lua-код для копирования в Delta */
+        .code-output {
+            background-color: #030105;
+            border: 1px solid #5a189a;
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 13px;
+            color: #e0aaff;
+            word-break: break-all;
+            margin-bottom: 20px;
+            text-align: left;
+            max-height: 80px;
+            overflow-y: auto;
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.9);
+        }
+
+        /* Кнопки */
+        .button {
+            color: #ffffff;
+            border: none;
+            padding: 15px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 12px;
+            transition: all 0.2s ease-in-out;
+            box-sizing: border-box;
+        }
+
+        /* Кнопка скопировать (Фиолетовый градиент) */
+        .btn-copy {
+            background: linear-gradient(90deg, #7b2cbf 0%, #5a189a 100%);
+            box-shadow: 0 4px 20px rgba(123, 44, 191, 0.4);
+        }
+
+        .btn-copy:active {
+            transform: scale(0.98);
+        }
+
+        /* Кнопка описания обновлений (Темная) */
+        .btn-logs {
+            background-color: #16092b;
+            border: 1px solid #3c1671;
+            font-size: 14px;
+            color: #c77dff;
+        }
+
+        .btn-logs:hover {
+            background-color: #210d40;
+        }
+        
+        /* Скрытый блок с обновлениями и функциями */
+        .logs-panel {
+            display: none;
+            background-color: #030105;
+            border: 1px solid #3c1671;
+            padding: 18px;
+            border-radius: 10px;
+            text-align: left;
+            font-size: 13px;
+            color: #c3b4d6;
+            margin-top: 15px;
+            line-height: 1.6;
+        }
+
+        .logs-panel h4 {
+            margin: 0 0 8px 0;
+            color: #9d4edd;
+            font-size: 14px;
+            border-bottom: 1px solid #240c46;
+            padding-bottom: 4px;
+        }
+
+        .logs-panel ul {
+            margin: 0;
+            padding-left: 18px;
+        }
+
+        .logs-panel li {
+            margin-bottom: 6px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-card">
+        <h1>mager1x Hub ⚡</h1>
+        <div class="version-tag">VERSION v1.4.2</div>
+        <div class="status-badge">🟢 STATUS: STABLE / UNDETECTED</div>
+        
+        <!-- Это ТЕКСТ скрипта, который скопируется кнопкой ниже. Сюда встроен рабочий скрипт -->
+        <div class="code-output" id="luaScriptCode">loadstring(game:HttpGet("https://githubusercontent.com"))()</div>
+        
+        <!-- Главные интерактивные кнопки -->
+        <button class="button btn-copy" onclick="copyLuaCode()">Скопировать Lua скрипт</button>
+        <button class="button btn-logs" onclick="toggleLogsPanel()">Описание обновлений & Функции</button>
+        
+        <!-- Панель информации (открывается при клике) -->
+        <div class="logs-panel" id="logsPanel">
+            <h4>⚙️ Актуальные функции чита:</h4>
+            <ul>
+                <li><strong>Silent Aim</strong> — идеальное попадание по целям без наведения камеры.</li>
+                <li><strong>Esp Murderer / Sheriff</strong> — подсветка игроков сквозь стены (показывает роли).</li>
+                <li><strong>Auto Farm</strong> — автоматический быстрый сбор монет на карте.</li>
+                <li><strong>Speed Hack / Jump Power</strong> — ползунки регулировки скорости бега и высоты прыжка.</li>
+            </ul>
+            <br>
+            <h4>🔄 Что нового в обновлении v1.4.2:</h4>
+            <ul>
+                <li>Полный обход новой системы античита Roblox (Hyperion).</li>
+                <li>Исправлен вылет Delta Executor при жестком использовании телепортации.</li>
+                <li>Оптимизирована отрисовка ESP (теперь FPS в игре не падает).</li>
+                <li>Добавлена функция автоматической закупки сундуков в лобби.</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Код для кнопки «Скопировать»
+        function copyLuaCode() {
+            const codeText = document.getElementById("luaScriptCode").innerText;
+            navigator.clipboard.writeText(codeText);
+            
+            const copyBtn = document.querySelector(".btn-copy");
+            copyBtn.innerText = "Успешно скопировано! ✓";
+            copyBtn.style.background = "#2ed573";
+            copyBtn.style.boxShadow = "0 4px 15px rgba(46, 213, 115, 0.4)";
+            
+            setTimeout(() => {
+                copyBtn.innerText = "Скопировать Lua скрипт";
+                copyBtn.style.background = "linear-gradient(90deg, #7b2cbf 0%, #5a189a 100%)";
+                copyBtn.style.boxShadow = "0 4px 20px rgba(123, 44, 191, 0.4)";
+            }, 2000);
+        }
+
+        // Код для открытия и закрытия описания
+        function toggleLogsPanel() {
+            const panel = document.getElementById("logsPanel");
+            if (panel.style.display === "block") {
+                panel.style.display = "none";
+            } else {
+                panel.style.display = "block";
+            }
+        }
+    </script>
+
+</body>
+</html>
