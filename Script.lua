@@ -1,38 +1,24 @@
--- Твой первый скрипт для mager1x Hub
-local StarterGui = game:GetService("StarterGui")
-
--- Красивое уведомление при запуске чита в игре
-StarterGui:SetCore("SendNotification", {
-    Title = "mager1x Hub",
-    Text = "Скрипт успешно активирован! Приятной игры!",
-    Duration = 5,
-    Button1 = "Ок"
-})
-
--- Сюда в будущем мы будем добавлять чит-функции (ESP, Аим, Скорость и т.д.)
-print("mager1x Hub загружен без ошибок!")
 -- ==========================================
 -- mager1x Hub | Murder Mystery 2
--- Скрипт для Delta Executor (Mobile UI)
+-- Фикс загрузки интерфейса для Delta Executor
 -- ==========================================
 
--- Прогрузка библиотек интерфейса (создаем фиолетовую тему)
-local Library = loadstring(game:HttpGet("https://githubusercontent.com")) -- Временная заглушка под графический движок
+-- Подключаем стабильную библиотеку фиолетового интерфейса
 local Material = loadstring(game:HttpGet("https://githubusercontent.com"))()
 
--- Настройки чита (переменные, куда сохраняются клики игрока)
+-- Настройки чита (сюда сохраняются клики игрока)
 local Settings = {
     SilentAim = false,
     Aimbot = false,
-    AimPart = "Head" -- По умолчанию целимся в голову
+    AimPart = "Head"
 }
 
 -- Создаем главное окно чита
 local Window = Material.Load({
     Title = "mager1x Hub ⚡ | MM2",
-    Style = 3, -- Стиль темной фиолетовой темы
-    SizeX = 400,
-    SizeY = 320,
+    Style = 3, -- Темно-фиолетовая тема
+    SizeX = 350,
+    SizeY = 300,
     Theme = "Purple"
 })
 
@@ -49,22 +35,13 @@ CombatTab.NewToggle({
     Callback = function(Value)
         Settings.SilentAim = Value
         if Value then
-            -- Выводим уведомление, что включен рейдж-режим
             game:GetService("StarterGui"):SetCore("SendNotification", {
                 Title = "mager1x Hub",
-                Text = "Внимание: Режим активирован для РЕЙДЖ игры!",
+                Text = "Внимание: режим для рейдж игры!",
                 Duration = 4
             })
-            print("Aim-Silent: АКТИВИРОВАН (100% попадание)")
-        else
-            print("Aim-Silent: ДЕАКТИВИРОВАН")
         end
-    end,
-    Menu = {
-        Information = function(self)
-            self:Description("Идеальное 100% попадание без наведения камеры.")
-        end
-    }
+    end
 })
 
 -- Функция: Aim-Bot (С автовыстрелом за 45 мс)
@@ -73,44 +50,38 @@ CombatTab.NewToggle({
     Callback = function(Value)
         Settings.Aimbot = Value
         if Value then
-            print("Aim-Bot: АКТИВИРОВАН")
-            
-            -- Логика авто-наведения на Мардера (45 мс) и выстрела
             task.spawn(function()
                 while Settings.Aimbot do
-                    task.wait(0.045) -- задержка ровно 45 миллисекунд
+                    task.wait(0.045) -- задержка 45 миллисекунд
                     
-                    -- Тут Delta ищет Мардера на карте MM2
                     local players = game:GetService("Players")
                     for _, player in pairs(players:GetPlayers()) do
-                        if player.Character and player.Backpack:FindFirstChild("Knife") or (player.Character:FindFirstChild("Knife")) then
-                            -- Наведение камеры на выбранную кость (Голова, Тело и т.д.)
+                        -- Ищем игрока с ножом (Мардера)
+                        if player.Character and (player.Backpack:FindFirstChild("Knife") or player.Character:FindFirstChild("Knife")) then
                             local targetPart = player.Character:FindFirstChild(Settings.AimPart)
                             if targetPart then
+                                -- Наводим камеру на выбранную часть тела
                                 workspace.CurrentCamera.CFrame = CFrame.new(workspace.CurrentCamera.CFrame.Position, targetPart.Position)
                                 
-                                -- Автоматический выстрел из пистолета Шерифа
-                                local combatTool = game.Players.LocalPlayer.Character:FindFirstChild("Gun")
-                                if combatTool then
-                                    combatTool:Activate() -- Нажимает курок
+                                -- Авто-выстрел, если в руках пистолет Шерифа
+                                local gun = game.Players.LocalPlayer.Character:FindFirstChild("Gun")
+                                if gun then
+                                    gun:Activate()
                                 end
                             end
                         end
                     end
                 end
             end)
-        else
-            print("Aim-Bot: ДЕАКТИВИРОВАН")
         end
     end
 })
 
--- Выпадающий список (Выбор костей для Aim-Bot)
+-- Выбираем куда стрелять
 CombatTab.NewDropdown({
     Title = "Зона попадания (Кость)",
     List = {"Head", "Torso", "Left Arm", "Right Arm", "Left Leg", "Right Leg", "Random"},
     Callback = function(Value)
-        -- Переводим русский выбор в понятные для игры названия костей
         if Value == "Head" then Settings.AimPart = "Head"
         elseif Value == "Torso" then Settings.AimPart = "HumanoidRootPart"
         elseif Value == "Left Arm" then Settings.AimPart = "LeftArm"
@@ -121,7 +92,6 @@ CombatTab.NewDropdown({
             local parts = {"Head", "HumanoidRootPart", "LeftArm", "RightArm"}
             Settings.AimPart = parts[math.random(1, #parts)]
         end
-        print("Зона наведения изменена на: " .. Settings.AimPart)
     end
 })
 
@@ -147,9 +117,9 @@ SettingsTab.NewLabel({
     Text = "Данный раздел пока в разработке..."
 })
 
--- Красивое стартовое уведомление в углу экрана игры
+-- Уведомление в игре о том, что всё загрузилось успешно
 game:GetService("StarterGui"):SetCore("SendNotification", {
     Title = "mager1x Hub Loaded!",
-    Text = "Combat меню успешно запущено через Delta.",
+    Text = "Успешный запуск меню через Delta.",
     Duration = 5
 })
