@@ -1,78 +1,73 @@
 -- =====================================================================
---                   mager1x Hub | ШАБЛОН ДЛЯ СТАРТА ⚡
+--               mager1x Hub | СВЕЖИЙ РАБОЧИЙ ШАБЛОН ⚡
 -- =====================================================================
 
--- 1. ПОДКЛЮЧЕНИЕ ДИЗАЙНА (Скачиваем готовую библиотеку меню)
-local Material = loadstring(game:HttpGet("https://githubusercontent.com"))()
+-- 1. ПОДКЛЮЧАЕМ НОВЫЙ ЗАЩИЩЕННЫЙ ДВИЖЕК ИНТЕРФЕЙСА (Orion Lib)
+local OrionLib = loadstring(game:HttpGet(('https://githubusercontent.com')))()
 
--- 2. ТАБЛИЦА НАСТРОЕК (Сюда сохраняется включена функция или выключена)
+-- 2. ТАБЛИЦА НАСТРОЕК СИСТЕМЫ
 local Config = {
     Aimbot = false,
     ESP = false
 }
 
--- 3. СОЗДАНИЕ ОКНА (Настройки внешнего вида меню)
-local Window = Material.Load({
-    Title = "mager1x Hub | Шаблон", -- Название чита
-    Style = 3,                      -- Темная фиолетовая тема
-    SizeX = 350,                    -- Ширина окошка
-    SizeY = 300,                    -- Высота окошка
-    Theme = "Purple"
+-- 3. СОЗДАЕМ ГЛАВНОЕ ОКНО ЧИТА (Черно-фиолетовая тема встроена по умолчанию)
+local Window = OrionLib:MakeWindow({
+    Name = "mager1x Hub ⚡ | MM2",
+    HidePremium = true,
+    SaveConfig = false,
+    IntroText = "mager1x Hub Loading..." -- Красивый текст при запуске
 })
 
--- 4. СОЗДАНИЕ ВКЛАДОК (Разделы нашего меню)
-local CombatTab = Window.NewTab({ Title = "Combat" })
-local VisualTab = Window.NewTab({ Title = "Visual" })
+-- 4. СОЗДАЕМ РАЗДЕЛЫ (Вкладки меню)
+local CombatTab = Window:MakeTab({ Name = "Combat", Icon = "rbxassetid://4483345998" })
+local VisualTab = Window:MakeTab({ Name = "Visual", Icon = "rbxassetid://4483345998" })
 
 -- =====================================================================
--- ШАБЛОН КНОПКИ ДЛЯ ВКЛАДКИ [COMBAT]
+-- КНОПКА ДЛЯ РАЗДЕЛА [COMBAT]
 -- =====================================================================
-CombatTab.NewToggle({
-    Title = "Aim-Bot (Наведение)",
+CombatTab:AddToggle({
+    Name = "Aim-Bot (Наведение)",
+    Default = false,
     Callback = function(Value)
-        Config.Aimbot = Value -- Записываем true (вкл) или false (выкл)
+        Config.Aimbot = Value
         
         if Value then
             -- Этот код сработает, когда игрок ВКЛЮЧИТ кнопку
-            print("Аимбот был включен!")
+            OrionLib:MakeNotification({
+                Name = "mager1x Hub",
+                Content = "Аимбот успешно активирован!",
+                Image = "rbxassetid://4483345998",
+                Time = 3
+            })
             
             task.spawn(function()
                 while Config.Aimbot do
-                    task.wait(0.1) -- Проверка каждые 0.1 секунды
-                    
-                    -- СЮДА КЛАДЕТСЯ ЛОГИКА АИМБОТА
-                    -- Например: поиск Мардера и разворот камеры
-                    
+                    task.wait(0.1)
+                    -- Сюда позже добавим проверку стен и наводку
                 end
             end)
         else
-            -- Этот код сработает, когда игрок ВЫКЛЮЧИТ кнопку
-            print("Аимбот был выключен!")
+            print("Аимбот выключен")
         end
     end
 })
 
 -- =====================================================================
--- ШАБЛОН КНОПКИ ДЛЯ ВКЛАДКИ [VISUAL]
+-- КНОПКА ДЛЯ РАЗДЕЛА [VISUAL]
 -- =====================================================================
-VisualTab.NewToggle({
-    Title = "Включить ESP (ВХ)",
+VisualTab:AddToggle({
+    Name = "Включить ESP (ВХ)",
+    Default = false,
     Callback = function(Value)
         Config.ESP = Value
-        
         if Value then
-            print("ВХ включено!")
-            -- СЮДА КЛАДЕТСЯ ЛОГИКА ПОДСВЕТКИ ИГРОКОВ
+            print("ВХ включено")
         else
-            print("ВХ выключено!")
-            -- СЮДА КЛАДЕТСЯ КОД, КОТОРЫЙ УДАЛЯЕТ ПОДСВЕТКУ
+            print("ВХ выключено")
         end
     end
 })
 
--- 5. ПРИВЕТСТВЕННОЕ УВЕДОМЛЕНИЕ (Показывает, что чит вообще загрузился)
-game:GetService("StarterGui"):SetCore("SendNotification", {
-    Title = "mager1x Hub",
-    Text = "Шаблон успешно запущен!",
-    Duration = 5
-})
+-- 5. ИНИЦИАЛИЗАЦИЯ ИНТЕРФЕЙСА (Обязательная команда для запуска)
+OrionLib:Init()
