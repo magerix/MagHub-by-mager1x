@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>mager1x Hub | MM2</title>
     <style>
-        /* Главные настройки фона и шрифтов */
+        /* Базовые настройки стиля */
         body {
             background-color: #07030d;
             color: #e5def0;
@@ -20,21 +20,284 @@
             box-sizing: border-box;
         }
 
-        /* Контейнер нашего сайта */
         .main-card {
             background: linear-gradient(145deg, #120721 0%, #080310 100%);
-            padding: 35px 25px;
+            padding: 25px;
             border-radius: 20px;
-            text-align: center;
             width: 100%;
             max-width: 460px;
             border: 2px solid #7b2cbf;
-            box-shadow: 0 0 35px rgba(123, 44, 191, 0.3), inset 0 0 20px rgba(123, 44, 191, 0.15);
+            box-shadow: 0 0 35px rgba(123, 44, 191, 0.3);
+            box-sizing: border-box;
         }
 
-        /* Название хаба с неоновым свечением */
         h1 { 
             color: #9d4edd; 
+            margin: 0 0 15px 0; 
+            font-size: 28px; 
+            text-align: center;
+            letter-spacing: 1px;
+            text-shadow: 0 0 15px rgba(157, 78, 221, 0.6);
+        }
+
+        /* Линейные вкладки вверху */
+        .tabs-nav {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 2px solid #240c46;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            color: #8c829e;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 5px 10px;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .tab-btn.active {
+            color: #c77dff;
+            text-shadow: 0 0 8px rgba(199, 125, 255, 0.6);
+            border-bottom: 2px solid #9d4edd;
+            margin-bottom: -12px;
+        }
+
+        /* Контент вкладок */
+        .tab-content {
+            display: none;
+            min-height: 180px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Стили для элементов функций внутри Combat */
+        .feature-block {
+            background: #040108;
+            border: 1px solid #3c1671;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .feature-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .feature-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #e0aaff;
+        }
+
+        .rage-badge {
+            color: #ff4757;
+            font-weight: bold;
+            font-size: 12px;
+            margin-left: 5px;
+        }
+
+        /* Переключатель Кнопка-Вкл / Кнопка-Выкл */
+        .toggle-btn {
+            background-color: #16092b;
+            border: 1px solid #7b2cbf;
+            color: #c77dff;
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+
+        .toggle-btn.active {
+            background-color: #2ed573;
+            border-color: #2ed573;
+            color: #fff;
+            box-shadow: 0 0 10px rgba(46, 213, 115, 0.4);
+        }
+
+        .feature-desc {
+            font-size: 13px;
+            color: #8c829e;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .rage-text {
+            display: none;
+            color: #ff4757;
+            font-size: 12px;
+            font-weight: bold;
+            margin-top: 8px;
+            background: rgba(255, 71, 87, 0.1);
+            padding: 4px 8px;
+            border-radius: 4px;
+            border-left: 3px solid #ff4757;
+        }
+
+        /* Выпадающий список выбора частей тела для Аимбота */
+        .sub-settings {
+            display: none;
+            margin-top: 12px;
+            border-top: 1px solid #240c46;
+            padding-top: 10px;
+        }
+
+        .select-box {
+            background-color: #120721;
+            border: 1px solid #7b2cbf;
+            color: #e5def0;
+            padding: 8px;
+            border-radius: 6px;
+            width: 100%;
+            outline: none;
+            cursor: pointer;
+        }
+
+        /* Заглушка для разделов в разработке */
+        .dev-text {
+            text-align: center;
+            color: #8c829e;
+            font-size: 16px;
+            margin-top: 50px;
+            font-style: italic;
+        }
+
+        /* Нижнее поле вывода загрузчика */
+        .code-output {
+            background-color: #030105;
+            border: 1px solid #5a189a;
+            padding: 12px;
+            border-radius: 10px;
+            font-family: 'Consolas', monospace;
+            font-size: 12px;
+            color: #e0aaff;
+            word-break: break-all;
+            margin-top: 20px;
+            margin-bottom: 12px;
+            text-align: left;
+        }
+
+        .btn-copy {
+            background: linear-gradient(90deg, #7b2cbf 0%, #5a189a 100%);
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 15px;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            box-shadow: 0 4px 20px rgba(123, 44, 191, 0.4);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-card">
+        <h1>mager1x Hub ⚡</h1>
+        
+        <!-- Линейная навигация меню -->
+        <div class="tabs-nav">
+            <button class="tab-btn active" onclick="openTab('combat', this)">Combat</button>
+            <button class="tab-btn" onclick="openTab('visual', this)">Visual</button>
+            <button class="tab-btn" onclick="openTab('settings', this)">Settings</button>
+        </div>
+
+        <!-- ВКЛАДКА: COMBAT -->
+        <div id="combat" class="tab-content active">
+            
+            <!-- Функция: Aim-Silent -->
+            <div class="feature-block">
+                <div class="feature-header">
+                    <span class="feature-title">Aim-Silent <span class="rage-badge">❌</span></span>
+                    <button class="toggle-btn" onclick="toggleFeature('silent', this)">Включить</button>
+                </div>
+                <p class="feature-desc">Идеальное 100% попадание по целям без разворота камеры.</p>
+                <div class="rage-text" id="rageWarning">⚠️ Внимание: режим активирован для РЕЙДЖ игры! (Высокий шанс бана)</div>
+            </div>
+
+            <!-- Функция: Aim-Bot -->
+            <div class="feature-block">
+                <div class="feature-header">
+                    <span class="feature-title">Aim-Bot</span>
+                    <button class="toggle-btn" onclick="toggleFeature('aimbot', this)">Включить</button>
+                </div>
+                <p class="feature-desc">Авто-наведение на Мардера за 45 мс с автоматическим выстрелом при фиксации цели.</p>
+                
+                <!-- Настройки зон попадания -->
+                <div class="sub-settings" id="aimbotSettings">
+                    <label style="font-size: 12px; color: #a370ff; display:block; margin-bottom: 5px;">Зона попадания:</label>
+                    <select class="select-box">
+                        <option value="head">Голова</option>
+                        <option value="torso">Тело</option>
+                        <option value="larm">Левая рука</option>
+                        <option value="rarm">Правая рука</option>
+                        <option value="lleg">Левая нога</option>
+                        <option value="rleg">Правая нога</option>
+                        <option value="random">Рандом попадание по цели</option>
+                    </select>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ВКЛАДКА: VISUAL -->
+        <div id="visual" class="tab-content">
+            <div class="dev-text">Данный раздел пока находится в разработке...</div>
+        </div>
+
+        <!-- ВКЛАДКА: SETTINGS -->
+        <div id="settings" class="tab-content">
+            <div class="dev-text">Данный раздел пока находится в разработке...</div>
+        </div>
+
+        <!-- Загрузчик Lua-скрипта -->
+        <div class="code-output" id="luaScriptCode">loadstring(game:HttpGet("https://githubusercontent.com"))()</div>
+        <button class="btn-copy" onclick="copyCode()">Скопировать загрузчик хаба</button>
+    </div>
+
+    <script>
+        // Функция переключения вкладок (Combat, Visual, Settings)
+        function openTab(tabId, button) {
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+            
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(tabId).classList.add('active');
+            button.classList.add('active');
+        }
+
+        // Функция включения/выключения кнопок функций
+        function toggleFeature(type, btn) {
+            btn.classList.toggle('active');
+            
+            if (btn.classList.contains('active')) {
+                btn.innerText = "Выключить";
+                
+                // Действия при включении конкретной функции
+                if (type === 'silent') {
+                    document.getElementById('rageWarning').style.display = 'block';
+                } else if (type === 'aimbot') {
+                    document.getElementById('aimbotSettings').style.display = 'block';
+                }
+            } else {
+                btn.innerText = "Включить";            color: #9d4edd; 
             margin: 0 0 5px 0; 
             font-size: 32px; 
             letter-spacing: 1.5px;
